@@ -48,7 +48,7 @@ def publishToRos():
             pose.pose.pose.orientation.w = quaternion[3]
 
 
-            covarianceIs = 0.14
+            covarianceIs = 0.00003
 
             pose.pose.covariance = np.array([covarianceIs,   0,   0,   0,   0,   0,
                                     0,   covarianceIs,   0,   0,   0,   0,

@@ -31,7 +31,7 @@
 #   global_frame_id: odom
 #   prune_plan: true
 
-controller_frequency: 20
+controller_frequency: 10
 
 TrajectoryPlannerROS:
   max_vel_x: 0.4

@@ -2,9 +2,15 @@
   <arg name="use_map_topic" default="false"/>
   <arg name="scan_topic" default="scan"/>
   <!-- Map File -->
-  <arg name="map_file" default="$(find my_launch)/launch/maps/labsea.yaml"/>
+  <arg name="map_file" default="$(find my_launch)/launch/maps/map.yaml"/>
 	
   <!-- Map Server -->
   <!-- Publish: /map, /map_metadata -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
+
+
+
+  
+<node pkg="tf" type="static_transform_publisher" name="odom_to_map"
+    args="-1 0  0  0 0 0  /map /odom 100" />
 </launch>
