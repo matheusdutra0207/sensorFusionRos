@@ -7,7 +7,7 @@
 
 <!-- odom and imu Kalman Filter-->
 <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_odom" clear_params="true"> 
-    <rosparam command="load" file="$(find my_launch)/launch/robot_localization_params/ekf_template_odom.yaml" />
+    <rosparam command="load" file="$(find sensor_fusion)/config/robot_localization_params/ekf_template_odom.yaml" />
 </node>
 
 </launch>
