@@ -1,4 +1,4 @@
-FROM osrf/ros:noetic-desktop-full
+FROM ros:noetic-ros-base
 
 # Change the default shell to Bash
 SHELL [ "/bin/bash" , "-c" ]
