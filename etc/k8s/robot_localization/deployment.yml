@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: "robot-localizationp-packege"
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: robot-localizationp-packege 
+    spec:
+      containers:
+      - name: service 
+        image: matheusdutra0207/robot-localization-ros:v1
+        args:
+          - roslaunch 
+          - ekf.launch
+        env:
+        - name: ROS_MASTER_URI
+          value: http://10.10.1.16:11311
+        - name: ROS_IP
+          value: 10.10.3.188
+        imagePullPolicy: Always
+      hostNetwork: true
+        
