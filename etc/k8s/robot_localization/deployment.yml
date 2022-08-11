@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1 
 kind: Deployment
 metadata:
-  name: "robot-localizationp-packege"
+  name: "robot-localization-package"
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app: robot-localizationp-packege 
+        app: robot-localization-package 
     spec:
       containers:
       - name: service 

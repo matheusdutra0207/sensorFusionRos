@@ -58,13 +58,13 @@ data:
 apiVersion: extensions/v1beta1 
 kind: Deployment
 metadata:
-  name: "amcl-packege"
+  name: "amcl-package"
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app: amcl-packege 
+        app: amcl-package 
     spec:
       containers:
       - name: service 
