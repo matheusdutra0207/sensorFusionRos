@@ -28,14 +28,14 @@
 
 # inflation_layer:
 #         inflation_radius: 0.10    
-obstacle_range: 0.15
+obstacle_range: 0.2 #0.15
 raytrace_range: 0.1
-footprint: [[-0.14, -0.14], [-0.14, 0.14], [0.14, 0.14], [0.14, -0.14]]
+footprint: [[-0.25, -0.21], [-0.25, 0.21], [0.25, 0.21], [0.25, -0.21]]
 map_topic: /map
 subscribe_to_updates: true
 global_frame: map
 robot_base_frame: base_link
-transform_tolerance: 0.8
+transform_tolerance: 1.5 #0.8
 
 rolling_window: false
 # rolling_window: true
