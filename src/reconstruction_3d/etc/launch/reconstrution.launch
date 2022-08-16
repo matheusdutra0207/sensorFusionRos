@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="reconstruction_3d" type="publishToROS.py" name="is">
+    <rosparam command="load" file="$(find reconstruction_3d)/etc/config/reconstruction.yaml" />
+  </node>
+</launch>

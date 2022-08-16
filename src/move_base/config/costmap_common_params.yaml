@@ -28,8 +28,8 @@
 
 # inflation_layer:
 #         inflation_radius: 0.10    
-obstacle_range: 0.2 #0.15
-raytrace_range: 0.1
+obstacle_range: 2
+raytrace_range: 2
 footprint: [[-0.25, -0.21], [-0.25, 0.21], [0.25, 0.21], [0.25, -0.21]]
 map_topic: /map
 subscribe_to_updates: true
@@ -37,8 +37,8 @@ global_frame: map
 robot_base_frame: base_link
 transform_tolerance: 1.5 #0.8
 
-rolling_window: false
-# rolling_window: true
+static_map: false
+rolling_window: true
 
 plugins:
   - {name: static_layer, type: "costmap_2d::StaticLayer"}
@@ -47,7 +47,7 @@ plugins:
 
 static_layer:
   map_topic: /map
-  subscribe_to_updates: false
+  subscribe_to_updates: true
 
 obstacle_layer:
     observation_sources: laser_scan_sensor
@@ -55,3 +55,4 @@ obstacle_layer:
 
 inflation_layer:
   inflation_radius: 0.2
+  cost_scaling_factor: 1.0

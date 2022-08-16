@@ -1,0 +1,4 @@
+broker_uri: "amqp://10.10.3.188:30000"
+aruco_id: 5
+measurement_covariance_noise: 0.15
+rate_publish : 10
