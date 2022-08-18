@@ -4,7 +4,11 @@
   <arg name="scan_topic" default="scan"/>
   <!-- Map File -->
   <!-- <arg name="map_file" default="/opt/ros/map/labsea.yaml"/> -->
-  <arg name="map_file" default="/home/labsea5/catkin_ws/src/sensor_fusion/full_config/map/labsea.yaml"/>
+  <!-- <arg name="map_file" default="/home/labsea5/catkin_ws/src/sensor_fusion/full_config/map/labsea.yaml"/> -->
+
+  <!-- Map File Container-->
+  <!-- <arg name="map_file" default="/opt/ros/map/labsea.yaml"/> -->
+  <arg name="map_file" default="/opt/ros/map/labsea.yaml"/>
 	
   <!-- Map Server -->
   <!-- Publish: /map, /map_metadata -->
