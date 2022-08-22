@@ -1,0 +1,134 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-move-base
+  namespace: default
+data:
+  config-base-local-planner: |-
+    controller_frequency: 10
+    recovery_behaviour_enabled: false
+    TrajectoryPlannerROS:
+      max_vel_x: 1.2 #0.5 #0.4
+      min_vel_x: 0.02 # 0.05 #0.1
+      max_vel_theta: 1 # 1
+      min_vel_theta: -1 #-1
+      min_in_place_vel_theta: 0.5 #0.5
+      acc_lim_theta: 0.2
+      acc_lim_x: 0.11
+      acc_lim_Y: 0.11
+      holonomic_robot: false
+      meter_scoring: true
+      xy_goal_tolerance: 0.1
+      yaw_goal_tolerance: 0.5
+      sim_time: 4.0
+      sim_granularity: 0.05 
+  config-costmap-common: |-
+    obstacle_range: 2
+    raytrace_range: 2
+    footprint: [[-0.25, -0.21], [-0.25, 0.21], [0.25, 0.21], [0.25, -0.21]]
+    map_topic: /map
+    subscribe_to_updates: true
+    global_frame: map
+    robot_base_frame: base_link
+    transform_tolerance: 1.5 #0.8
+    static_map: false
+    rolling_window: true
+    plugins:
+      - {name: static_layer, type: "costmap_2d::StaticLayer"}
+      - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+      - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+    static_layer:
+      map_topic: /map
+      subscribe_to_updates: true
+    obstacle_layer:
+        observation_sources: laser_scan_sensor
+        laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+    inflation_layer:
+      inflation_radius: 0.2
+      cost_scaling_factor: 1.0
+  config-global-costmap: |-
+    global_costmap:
+      global_frame: map
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      transform_tolerance: 0.8
+      static_map: false
+      resolution: 0.05
+      width: 5 #3.4
+      height: 5 #3.4
+  config-local-costmap: |-
+    local_costmap:
+      global_frame: mapmove-base-ros-7ccd5854f9-cbfn4
+      transform_tolerance: 0.8
+      always_send_full_costmap: true      
+      static_map: true
+      rolling_window: false
+      resolution: 0.05
+      inflation_radius: 0.1
+      width: 10
+      height: 10
+      plugins:
+        - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+      obstacle_layer:
+        observation_sources: laser_scan_sensor
+        laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan, marking: true, clearing: true}     
+---
+
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: "move-base-ros"
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: move-base-ros
+    spec:
+      containers:
+      - name: service 
+        image: matheusdutra0207/move-base-ros:v1
+        args:
+          - roslaunch 
+          - move_base.launch       
+        env:
+        - name: ROS_MASTER_URI
+          value: http://10.10.1.16:11311
+        - name: ROS_IP
+          value: 10.10.3.188
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - name: base-local-planner-volume
+            mountPath: /opt/ros/move_base/config/base_local_planner_config
+          - name: costmap-common-volume
+            mountPath: /opt/ros/move_base/config/costmap_common_config
+          - name: global-costmap-volume
+            mountPath: /opt/ros/config/move_base/config/global_costmap_config
+          - name: local-costmap-volume
+            mountPath: /opt/ros/config/move_base/config/local_costmap_config                      
+      volumes:
+      - name: base-local-planner-volume
+        configMap:
+          name: config-move-base
+          items:
+          - key: config-base-local-planner
+            path: base_local_planner_params.yaml
+      - name: costmap-common-volume
+        configMap:
+          name: config-move-base
+          items:
+          - key: config-costmap-common
+            path: costmap_common_params.yaml
+      - name: global-costmap-volume
+        configMap:
+          name: config-move-base
+          items:
+          - key: config-global-costmap
+            path: global_costmap_params.yaml
+      - name: local-costmap-volume
+        configMap:
+          name: config-move-base
+          items:
+          - key: config-local-costmap
+            path: local_costmap_params.yaml
+      hostNetwork: true
