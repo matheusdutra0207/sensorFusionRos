@@ -8,7 +8,10 @@ RUN source /opt/ros/noetic/setup.bash \
     && cd opt/ros/src \
     && catkin_create_pkg reconstruction_3d std_msgs rospy roscpp
 
-COPY src/reconstruction_3d/src opt/ros/src/reconstruction_3d/src
+COPY reconstruction_3d/src opt/ros/src/reconstruction_3d/src
+
+RUN cd opt/ros/src/reconstruction_3d/src \
+    && chmod +x publishToROS.py
 
 RUN apt-get update \
     &&  apt-get --yes install ros-noetic-navigation \
@@ -25,21 +28,17 @@ RUN source /opt/ros/noetic/setup.bash && \
 catkin_make && \
 source devel/setup.bash
 
-WORKDIR /opt/ros/map
-COPY src/full_config/map/labsea.yaml .
-COPY src/full_config/map/labsea.pgm .
-
 WORKDIR /opt/ros/config/amcl_config
-COPY src/full_config/config/amcl_config/amcl_template.yaml .
+COPY full_config/config/amcl_config/amcl_template.yaml .
 
 WORKDIR /opt/ros/config/rec_config
-COPY src/full_config/config/rec_config/reconstruction_template.yaml .
+COPY full_config/config/rec_config/reconstruction_template.yaml .
 
 WORKDIR /opt/ros/config/robot_localization_config
-COPY src/full_config/config/robot_localization_config/ekf_template.yaml .
+COPY full_config/config/robot_localization_config/ekf_template.yaml .
 
 WORKDIR /opt/ros/launch
-COPY src/full_config/launch/sensor_fusion_ekf.launch .
+COPY full_config/launch/sensor_fusion_ekf.launch .
 
 COPY bootstrap.sh .
 RUN chmod +x bootstrap.sh
