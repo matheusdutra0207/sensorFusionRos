@@ -30,7 +30,7 @@ spec:
   selector:
     app: ros-master
   ports:
-    - name: amqp
+    - name: master
       protocol: TCP
       port: 11311
       targetPort: 11311
