@@ -9,10 +9,10 @@ RUN apt-get update && apt-get --yes install ros-noetic-robot-localization
 RUN source /opt/ros/noetic/setup.bash
 
 WORKDIR /opt/ros/config
-COPY ekf_template.yaml .
+COPY robot_localization/config/ekf_template.yaml .
 
 WORKDIR /opt/ros/launch
-COPY ekf.launch .
+COPY robot_localization/launch/ekf.launch .
 
 
 
