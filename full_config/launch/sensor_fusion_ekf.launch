@@ -8,11 +8,11 @@
 
   <!-- Map File Container-->
   <!-- <arg name="map_file" default="/opt/ros/map/labsea.yaml"/> -->
-  <arg name="map_file" default="/opt/ros/map/labsea.yaml"/>
+  <!-- <arg name="map_file" default="/opt/ros/map/labsea.yaml"/> -->
 	
   <!-- Map Server -->
   <!-- Publish: /map, /map_metadata -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
+  <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" /> -->
 
   <!--AMCL --> 
   <node pkg="amcl" type="amcl" name="amcl">
@@ -31,10 +31,10 @@
     <remap from="odometry/filtered" to="odometry/filtered_map"/>
   </node>
 
-  <!-- Call service: amcl global localization-->>
+  <!-- Call service: amcl global localization-->
   <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization" />
 
-  <!-- Transformation for costmap to works-->>  
+  <!-- Transformation for costmap to works-->
   <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 base_link laser 100"/>  
 
 </launch>
