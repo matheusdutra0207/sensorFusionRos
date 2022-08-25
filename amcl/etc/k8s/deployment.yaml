@@ -6,7 +6,6 @@ metadata:
 data:
   config: |-
     tf_broadcast: True
-
     # Overall filter parameters
     use_map_topic:        false      # false
     min_particles:        100       # 100,500
@@ -28,7 +27,6 @@ data:
     gui_publish_rate:     10.0      # -1.0, 10
     save_pose_rate:       0.5       # 0.5
     first_map_only:       false     # false
-
     # Laser Model Parameters 
     laser_min_range:            -1.0   # -1.0
     laser_max_range:            -1.0   # -1.0
@@ -41,7 +39,6 @@ data:
     laser_lambda_short:         0.1    # 0.1
     laser_likelihood_max_dist:  2.0    # 2.0
     laser_model_type:           likelihood_field
-
     # Odometery model parameters
     odom_model_type:  diff-corrected
     odom_alpha1:      0.5    # 0.2 rr
@@ -68,13 +65,13 @@ spec:
     spec:
       containers:
       - name: service 
-        image: matheusdutra0207/amcl-ros:v1
+        image: matheusdutra0207/amcl-ros:v2
         args:
           - roslaunch 
           - amcl.launch
         env:
         - name: ROS_MASTER_URI
-          value: http://10.10.1.16:11311
+          value: http://10.10.3.188:30015
         - name: ROS_IP
           value: 10.10.3.188
         imagePullPolicy: Always

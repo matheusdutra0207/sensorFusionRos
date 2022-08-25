@@ -137,11 +137,11 @@ spec:
     spec:
       containers:
       - name: service 
-        image: matheusdutra0207/sensor_fusion_ekf:v1
+        image: matheusdutra0207/sensor_fusion_ekf:v2
         command: ["./bootstrap.sh"]       
         env:
         - name: ROS_MASTER_URI
-          value: http://10.10.1.16:11311
+          value: http://10.10.3.188:30015
         - name: ROS_IP
           value: 10.10.3.188
         imagePullPolicy: IfNotPresent
