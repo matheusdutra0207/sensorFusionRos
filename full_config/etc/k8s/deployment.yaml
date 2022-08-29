@@ -145,7 +145,7 @@ spec:
         - name: ROS_MASTER_URI
           value: http://ros-master:11311
         - name: ROS_IP
-          value: "sensor-fusion-ekf-full-config"
+          value: "sensor-fusion-ekf-full-config.default.svc.cluster.local"
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: amcl-config-volume
