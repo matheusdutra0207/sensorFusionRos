@@ -89,10 +89,7 @@ data:
     process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
+                            hostNetwork: true        0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
@@ -118,7 +115,7 @@ data:
                                   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
                                   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]
   config-reconstruction: |-
-    broker_uri: "amqp://10.10.3.188:30000"
+    broker_uri: "amqp://rabbitmq.default"
     aruco_id: 5
     measurement_covariance_noise: 0.15
     rate_publish : 10
@@ -127,23 +124,25 @@ data:
 apiVersion: extensions/v1beta1 
 kind: Deployment
 metadata:
-  name: "sensor-fusion-ekf"
+  name: "sensor-fusion-ekf-full-config"
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app: sensor-fusion-ekf
+        app: sensor-fusion-ekf-full-config
     spec:
       containers:
-      - name: service 
+      - name: sensor-fusion-ekf-full-config 
         image: matheusdutra0207/sensor_fusion_ekf:v2
+        ports:
+        - containerPort: 11311         
         command: ["./bootstrap.sh"]       
         env:
         - name: ROS_MASTER_URI
-          value: http://10.10.3.188:30015
+          value: http://ros-master:11311
         - name: ROS_IP
-          value: 10.10.3.188
+          value: "sensor-fusion-ekf-full-config"
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: amcl-config-volume
@@ -171,4 +170,20 @@ spec:
           items:
           - key: config-reconstruction
             path: reconstruction_template.yaml
-      hostNetwork: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: sensor-fusion-ekf-full-config
+spec:
+  clusterIP: None
+  selector:
+    app: sensor-fusion-ekf-full-config
+  ports:
+    - name: rosport
+      protocol: TCP
+      port: 11311
+      targetPort: 11311
+  type: ClusterIP    
