@@ -1,0 +1,7 @@
+<launch>
+<!-- AMCL and Vo Kalman Filter-->
+<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_map" clear_params="true"> 
+    <rosparam command="load" file="../config/ekf_template.yaml" />
+    <remap from="odometry/filtered" to="odometry/filtered_map"/>
+</node>
+</launch>
