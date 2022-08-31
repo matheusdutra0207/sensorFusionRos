@@ -118,7 +118,7 @@ data:
                                   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
                                   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]
   config-reconstruction: |-
-    broker_uri: "amqp://rabbitmq.default"
+    broker_uri: "amqp://10.10.3.188:30000"
     aruco_id: 5
     measurement_covariance_noise: 0.15
     rate_publish : 10
@@ -127,30 +127,24 @@ data:
 apiVersion: extensions/v1beta1 
 kind: Deployment
 metadata:
-  name: "sensor-fusion-ekf-full-config"
+  name: "sensor-fusion-ekf"
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app: sensor-fusion-ekf-full-config
+        app: sensor-fusion-ekf
     spec:
       containers:
-      - name: sensor-fusion-ekf-full-config 
+      - name: service 
         image: matheusdutra0207/sensor_fusion_ekf:v2
-        ports:
-        - containerPort: 11311         
         command: ["./bootstrap.sh"]       
         env:
         - name: ROS_MASTER_URI
-<<<<<<< HEAD:etc/k8s/full_config/deployment.yml
           value: http://10.10.3.188:30015
-=======
-          value: http://ros-master:11311
->>>>>>> restructure:full_config/etc/k8s/deployment.yaml
         - name: ROS_IP
-          value: "sensor-fusion-ekf-full-config.default.svc.cluster.local"
-        imagePullPolicy: IfNotPresent
+          value: 10.10.3.188
+        imagePullPolicy: Always
         volumeMounts:
           - name: amcl-config-volume
             mountPath: /opt/ros/config/amcl_config
@@ -177,20 +171,4 @@ spec:
           items:
           - key: config-reconstruction
             path: reconstruction_template.yaml
-
----
-
-apiVersion: v1
-kind: Service
-metadata: 
-  name: sensor-fusion-ekf-full-config
-spec:
-  clusterIP: None
-  selector:
-    app: sensor-fusion-ekf-full-config
-  ports:
-    - name: rosport
-      protocol: TCP
-      port: 11311
-      targetPort: 11311
-  type: ClusterIP    
+      hostNetwork: true
