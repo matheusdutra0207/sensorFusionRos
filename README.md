@@ -12,6 +12,10 @@ The use of the robot_localization package is very well explained in this links:
 
 In this [project](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/02%20-%20Global%20Pose%20Estimate%20Fusion%20(Example%20Implementation).md), the robot localization package was used to Fusing the Marvelmind Indoor 'GPS' with amcl. 
 
+## amcl configuration
+
+The deployment file, which is in [amcl/etc/k8s](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/amcl/etc/k8s/deployment.yaml), contains the amcl configuration we are currently using. However, if you want to use robot_localization to provide the `map --> odom` transformation, you must set the tf_broadcast parameter to False (`tf_broadcast: False`).
+
 ### Issues:
 
 #### The Cluster k8s network
