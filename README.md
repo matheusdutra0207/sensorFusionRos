@@ -6,7 +6,7 @@ This project use the package [robot localization](http://wiki.ros.org/robot_loca
 
 The use of the robot_localization package is very well explained in this links:
 
-- [ros-sensor-fusion-tutorial](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md);
+- [Ros-sensor-fusion-tutorial](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md);
 
 - [The Ros Robot_localization package](https://kapernikov.com/the-ros-robot_localization-package/).
 
