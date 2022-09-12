@@ -1,7 +1,16 @@
 # Sensor Fusion
 
-This project use the package [robot localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: 3D visual reconstruction and [ACML](http://wiki.ros.org/amcl)(Monte Carlo localization).
+This project use the package [robot localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: [3D visual reconstruction](https://github.com/matheusdutra0207/is-reconstruction) and [ACML](http://wiki.ros.org/amcl) (Monte Carlo localization).
 
+## Robot localization package
+
+The use of the robot_localization package is very well explained in this [links].
+
+- [ros-sensor-fusion-tutorial](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md);
+
+- [The Ros Robot_localization package](https://kapernikov.com/the-ros-robot_localization-package/).
+
+In this [project](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/02%20-%20Global%20Pose%20Estimate%20Fusion%20(Example%20Implementation).md), the robot localization package was used to Fusing the Marvelmind Indoor 'GPS' with amcl. 
 
 ### Issues:
 
