@@ -12,9 +12,18 @@ The use of the robot_localization package is very well explained in this links:
 
 In this [project](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/02%20-%20Global%20Pose%20Estimate%20Fusion%20(Example%20Implementation).md), the robot localization package was used to Fusing the Marvelmind Indoor 'GPS' with amcl. 
 
-## amcl configuration
+## Amcl configuration
 
 The deployment file, which is in [amcl/etc/k8s](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/amcl/etc/k8s/deployment.yaml), contains the amcl configuration we are currently using. However, if you want to use robot_localization to provide the `map --> odom` transformation, you must set the tf_broadcast parameter to False (`tf_broadcast: False`).
+
+## Is-reconstruction configuration
+
+The ROS-translation microservice is used for the integration of Ros with the intelligent space. However, this project does not make use of it yet. Thus, the [reconstruction_3d](](https://github.com/matheusdutra0207/sensorFusionRos/tree/main/reconstruction_3d)) package is used to make the is-reconstruction measurements available to ROS.
+
+### Streams:
+| Name | ⇒ Input | Output  ⇒ | Description |
+| ---- | ------- | --------- | ----------- |
+| is/vo | :incoming_envelope: **topic:** `reconstruction.{ArUco_id}.ArUco` <br> :gem: **schema:** [Pose](https://github.com/labviros/is-msgs/tree/master/docs#is.common.Pose) | :incoming_envelope: **topic:**  `is/vo` <br> :gem: **schema:** [PoseWithCovarianceStamped](http://docs.ros.org/en/lunar/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html) | Takes the marker pose and publishes it to ROS with a specific covariance, which is statically defined in the [package configuration](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/reconstruction_3d/etc/config/reconstruction.yaml).|
 
 ### Issues:
 
