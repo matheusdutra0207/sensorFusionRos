@@ -1,20 +1,30 @@
-# Sensor Fusion
+# About
 
-This project use the package [robot localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: [3D visual reconstruction](https://github.com/matheusdutra0207/is-reconstruction) and [ACML](http://wiki.ros.org/amcl) (Monte Carlo localization).
+This project use the package [robot localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: [3D visual reconstruction](https://github.com/matheusdutra0207/is-reconstruction) and [ACML](http://wiki.ros.org/amcl) (Monte Carlo localization). For sensory fusion to work properly, the center of the ArUco must be positioned at the center of the robot. The figure below shows how the system works, where each element is individually described below:
 
-## Dependencies:
-
-[Ros-map-server-microsservice](https://github.com/vinihernech/ros-map-server-microsservice): provide the environment map for ros and PIS.
-
-## Robot localization package
+### Robot localization
 
 The use of the robot_localization package is very well explained in this links:
 
 - [Ros-sensor-fusion-tutorial](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md);
 
-- [The Ros Robot_localization package](https://kapernikov.com/the-ros-robot_localization-package/).
+- [The Ros Robot_localization package](https://kapernikov.com/the-ros-robot_localization-package/);
 
-In this [project](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/02%20-%20Global%20Pose%20Estimate%20Fusion%20(Example%20Implementation).md), the robot localization package was used to Fusing the Marvelmind Indoor 'GPS' with amcl. 
+- [Fusing the Marvelmind Indoor 'GPS' with amcl](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/02%20-%20Global%20Pose%20Estimate%20Fusion%20(Example%20Implementation).md).
+
+### Amcl
+
+[Amcl](http://wiki.ros.org/amcl) is a probabilistic localization system for a robot moving in 2D. It implements the adaptive  Monte Carlo localization approach , which uses a particle filter to track the pose of a robot against a known map.
+
+### Reconstruction 3d 
+
+The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) microsservice estimate the ArUco's pose using the detections from all cameras that are viewing it.
+
+# Dependencies:
+
+[Ros-map-server-microsservice](https://github.com/vinihernech/ros-map-server-microsservice): provide the environment map for ros and PIS.
+
+
 
 ## Amcl configuration
 
