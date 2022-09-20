@@ -1,4 +1,4 @@
-# About
+# About:
 
 This project use the package [robot_localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: [3D visual reconstruction](https://github.com/matheusdutra0207/is-reconstruction) and [ACML](http://wiki.ros.org/amcl) (Monte Carlo localization). For sensory fusion to work properly, the center of the ArUco must be positioned at the center of the robot. The figure below shows how the system works, where each element is individually described below:
 
@@ -38,7 +38,7 @@ The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) m
 
 [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction): Estimate the 3D poses of the ArUco Markers.
 
-# configuration
+# configuration:
 
 ### Amcl 
 
@@ -61,7 +61,7 @@ The deployment file, which is in [robot_localization/etc/k8s](https://github.com
 
 Unites all three configurations (amcl, Is-reconstruction e robot_localization) into a single [deployment](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/full_config/etc/k8s/deployment.yaml).
 
-# comments:
+# Comments:
 
 ### The Cluster k8s network
 
