@@ -32,7 +32,7 @@ The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) m
 
 # Dependencies:
 
-[Ros-map-server-microsservice](https://github.com/vinihernech/ros-map-server-microsservice): provide the environment map for ros and PIS.
+[Ros-map-server-microsservice](https://github.com/vinihernech/ros-map-server-microsservice): Provide the environment map for ros and PIS.
 
 [ROS-master](http://wiki.ros.org/Master): Provides naming and registration services to the rest of the nodes in the ROS system.
 
