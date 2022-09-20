@@ -1,10 +1,15 @@
 # About
 
-This project use the package [robot localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: [3D visual reconstruction](https://github.com/matheusdutra0207/is-reconstruction) and [ACML](http://wiki.ros.org/amcl) (Monte Carlo localization). For sensory fusion to work properly, the center of the ArUco must be positioned at the center of the robot. The figure below shows how the system works, where each element is individually described below:
+This project use the package [robot_localization](http://wiki.ros.org/robot_localization) to fuse the robot poses estimation. The poses are estimated by two methods: [3D visual reconstruction](https://github.com/matheusdutra0207/is-reconstruction) and [ACML](http://wiki.ros.org/amcl) (Monte Carlo localization). For sensory fusion to work properly, the center of the ArUco must be positioned at the center of the robot. The figure below shows how the system works, where each element is individually described below:
 
-### Robot localization
 
-The use of the robot_localization package is very well explained in this links:
+<p align="center">
+  <img src="https://github.com/matheusdutra0207/sensorFusionRos/blob/main/etc/images/sensor_fusion_ekf.png" width="750" title="sensor fusion">
+</p>
+
+### EKF
+
+The Extended Kal Filter (EKF) is used to fuse the robot pose estimates in this project. Thus, the robot_localization package executes an EKF node that fuse the amcl pose and the 3D visual reconstruction pose and publishes it in the topic `odometry/filtred_map`. The robot_localization is very well explained in this links:
 
 - [Ros-sensor-fusion-tutorial](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md);
 
@@ -16,7 +21,12 @@ The use of the robot_localization package is very well explained in this links:
 
 [Amcl](http://wiki.ros.org/amcl) is a probabilistic localization system for a robot moving in 2D. It implements the adaptive  Monte Carlo localization approach , which uses a particle filter to track the pose of a robot against a known map.
 
-### Reconstruction 3d 
+### Reconstruction_3d 
+
+Consume the poses estimated by is-reconstruction and publish them to the ROS `is/vo` topic.
+
+
+### Is-reconstruction
 
 The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) microsservice estimate the ArUco's pose using the detections from all cameras that are viewing it.
 
@@ -24,30 +34,30 @@ The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) m
 
 [Ros-map-server-microsservice](https://github.com/vinihernech/ros-map-server-microsservice): provide the environment map for ros and PIS.
 
+# configuration
 
-
-## Amcl configuration
+### Amcl 
 
 The deployment file, which is in [amcl/etc/k8s](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/amcl/etc/k8s/deployment.yaml), contains the amcl configuration we are currently using. However, if you want to use robot_localization to provide the `map --> odom` transformation, you must set the tf_broadcast parameter to False (`tf_broadcast: False`).
 
-## Is-reconstruction configuration
+### Reconstruction_3d 
 
 The ROS-translation microservice is used for the integration of Ros with the intelligent space. However, this project does not make use of it yet. Thus, the [reconstruction_3d](https://github.com/matheusdutra0207/sensorFusionRos/tree/main/reconstruction_3d) package is used to make the is-reconstruction measurements available to ROS.
 
-### Streams:
+#### Streams:
 | Name | ⇒ Input | Output  ⇒ | Description |
 | ---- | ------- | --------- | ----------- |
 | is/vo | :incoming_envelope: **topic:** `reconstruction.{ArUco_id}.ArUco` <br> :gem: **schema:** [Pose](https://github.com/labviros/is-msgs/tree/master/docs#is.common.Pose) | :incoming_envelope: **topic:**  `is/vo` <br> :gem: **schema:** [PoseWithCovarianceStamped](http://docs.ros.org/en/lunar/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html) | Takes the marker pose and publishes it to ROS with a specific covariance, which is statically defined in the [package configuration](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/reconstruction_3d/etc/config/reconstruction.yaml).|
 
-## Robot_localization configuration
+### Robot_localization
 
 The deployment file, which is in [robot_localization/etc/k8s](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/robot_localization/etc/k8s/deployment.yaml), contains the robot_localization configuration we are currently using.
 
-## Full_config configuration
+### Full_config
 
 Unites all three configurations (amcl, Is-reconstruction e robot_localization) into a single [deployment](https://github.com/matheusdutra0207/sensorFusionRos/blob/main/full_config/etc/k8s/deployment.yaml).
 
-## Issues:
+# comments:
 
 ### The Cluster k8s network
 
