@@ -30,7 +30,7 @@ Consume the poses estimated by is-reconstruction and publish them to the ROS `is
 
 The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) microsservice estimate the ArUco's pose using the detections from all cameras that are viewing it.
 
-# Dependencies:
+# Dependencies
 
 [Ros-map-server-microsservice](https://github.com/vinihernech/ros-map-server-microsservice): Provide the environment map for ros and PIS.
 
