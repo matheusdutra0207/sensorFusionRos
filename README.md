@@ -9,7 +9,7 @@ This project use the package [robot_localization](http://wiki.ros.org/robot_loca
 
 ### EKF
 
-The Extended Kal Filter (EKF) is used to fuse the robot pose estimates in this project. Thus, the robot_localization package executes an EKF node that fuse the amcl pose and the 3D visual reconstruction pose and publishes it in the topic `odometry/filtred_map`. The robot_localization is very well explained in this links:
+The Extended Kalman Filter (EKF) is used to fuse the robot pose estimates in this project. Thus, the robot_localization package executes an EKF node that fuse the amcl pose and the 3D visual reconstruction pose and publishes it in the topic `odometry/filtred_map`. The robot_localization is very well explained in this links:
 
 - [Ros-sensor-fusion-tutorial](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md);
 
@@ -38,7 +38,7 @@ The [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction) m
 
 [Is-reconstruction](https://github.com/matheusdutra0207/is-reconstruction): Estimate the 3D poses of the ArUco Markers.
 
-# configuration:
+# Configuration:
 
 ### Amcl 
 
