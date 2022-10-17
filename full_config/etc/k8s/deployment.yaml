@@ -5,19 +5,16 @@ metadata:
   namespace: default
 data:
   config-amcl: |-
-    # tf
-
     tf_broadcast: false
-
     # Overall filter parameters
     use_map_topic:        false      # false
-    min_particles:        100       # 100,500
-    max_particles:        10000     # 5000
-    kld_err:              0.01      # 0.01, 0.05
-    kld_z:                0.99      # 0.99
-    update_min_d:         0.00000       # 0.2
-    update_min_a:         0.00000    # 0.5235
-    resample_interval:    2         # 2, 1
+    min_particles:        300       # 100,500
+    max_particles:        5000     # 5000
+    kld_err:              0.05      # 0.01, 0.05
+    kld_z:                0.95      # 0.99
+    update_min_d:         0.001#0       # 0.2
+    update_min_a:         0.01 #0.02    # 0.5235
+    resample_interval:    1         # 2, 1
     transform_tolerance:  0.1       # 0.1, 0.2
     recovery_alpha_slow:  0.001     # 0.0, 0.0, 0.001
     recovery_alpha_fast:  0.1       # 0.0, 0.0, 0.1
@@ -27,30 +24,28 @@ data:
     initial_cov_xx:       0.25      # 0.25
     initial_cov_yy:       0.25      # 0.25
     initial_cov_aa:       0.06853   # 0.06853 
-    gui_publish_rate:     1.0      # -1.0, 10
-    #save_pose_rate:       0.5       # 0.5
+    gui_publish_rate:     -1      # -1.0, 10
+    save_pose_rate:       0.5       # 0.5
     first_map_only:       false     # false
-
     # Laser Model Parameters 
-    laser_min_range:            -1.0   # -1.0
-    laser_max_range:            -1.0   # -1.0
-    laser_max_beams:            30    # 180
-    laser_z_hit:                0.3   # 0.95, 0.5
-    laser_z_short:              0.1    # 0.1,  0.05
+    laser_min_range:            0.05   # -1.0
+    laser_max_range:            10   # -1.0
+    laser_max_beams:            280#300    # 180
+    laser_z_hit:                0.5   # 0.95, 0.5
+    laser_z_short:              0.05    # 0.1,  0.05
     laser_z_max:                0.05   # 0.05 
-    laser_z_rand:               0.3   # 0.05, 0.5
+    laser_z_rand:               0.5   # 0.05, 0.5
     laser_sigma_hit:            0.2    # 0.2   
     laser_lambda_short:         0.1    # 0.1
     laser_likelihood_max_dist:  2.0    # 2.0
     laser_model_type:           likelihood_field
-
     # Odometery model parameters
     odom_model_type:  diff-corrected
-    odom_alpha1:      0.5    # 0.2 rr
-    odom_alpha2:      0.25   # 0.2 rt
-    odom_alpha3:      0.6    # 0.2,0.8 tt
-    odom_alpha4:      0.25   # 0.2 tr
-    odom_alpha5:      0.2    # 0.2,0.1
+    odom_alpha1:      0.2    # 0.2 rr
+    odom_alpha2:      0.2  # 0.2 rt
+    odom_alpha3:      0.2    # 0.2,0.8 tt
+    odom_alpha4:      0.2 # 0.2 tr
+    odom_alpha5:      0    # 0.2,0.1
     odom_frame_id:    odom 
     base_frame_id:    base_link 
     global_frame_id:  map 
@@ -86,12 +81,12 @@ data:
 
     pose1_rejection_threshold: 3
 
-    process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+    process_noise_covariance: [0.15, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0.15, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0.15, 0,     0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
@@ -120,7 +115,7 @@ data:
   config-reconstruction: |-
     broker_uri: "amqp://10.10.3.188:30000"
     aruco_id: 5
-    measurement_covariance_noise: 0.15
+    measurement_covariance_noise: 0.14
     rate_publish : 10
 ---
 
@@ -137,14 +132,14 @@ spec:
     spec:
       containers:
       - name: service 
-        image: matheusdutra0207/sensor_fusion_ekf:v2
+        image: matheusdutra0207/sensor_fusion_ekf:v3
         command: ["./bootstrap.sh"]       
         env:
         - name: ROS_MASTER_URI
           value: http://10.10.3.188:30015
         - name: ROS_IP
           value: 10.10.3.188
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent # Always
         volumeMounts:
           - name: amcl-config-volume
             mountPath: /opt/ros/config/amcl_config
