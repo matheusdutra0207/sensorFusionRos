@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reconstruction3d
+  namespace: default
+data:
+  config-reconstruction: |-
+    broker_uri: "amqp://10.10.3.188:30000"
+    aruco_id: 5
+    measurement_covariance_noise: 0.06
+    rate_publish : 10
+---
+
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: "reconstruction3d"
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: reconstruction3d
+    spec:
+      containers:
+      - name: service 
+        image: matheusdutra0207/reconstruction3d:v1
+        command: ["./bootstrap.sh"]       
+        env:
+        - name: ROS_MASTER_URI
+          value: http://10.10.3.188:30015
+        - name: ROS_IP
+          value: 10.10.3.188
+        imagePullPolicy: IfNotPresent # Always
+        volumeMounts:
+          - name: reconstruction3d-volume
+            mountPath: /opt/ros/config/rec_config                
+      volumes:
+      - name: reconstruction3d-volume
+        configMap:
+          name: reconstruction3d
+          items:
+          - key: config-reconstruction
+            path: reconstruction_template.yaml
+      hostNetwork: true
