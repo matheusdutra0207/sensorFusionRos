@@ -5,6 +5,7 @@ metadata:
   namespace: default
 data:
   config: |-
+    publish_tf: false
     frequency: 10
     two_d_mode: true
     map_frame: map
@@ -14,6 +15,18 @@ data:
     transform_time_offset: 1
     smooth_lagged_data: true
     dynamic_process_noise_covariance: false
+
+    odom0: odrive/odom
+    odom0_config: [false, false, false,
+                    false, false, false,
+                    true,  true,  true,
+                    false, false, true,
+                    false, false, false]
+    odom0_queue_size: 10
+    odom0_nodelay: true
+    odom0_differential: false
+    odom0_relative: false
+
     pose0: is/vo  
     pose0_config: [true,  true,  false,
                   false, false, true,
@@ -21,31 +34,31 @@ data:
                   false, false, false,
                   false, false, false]
 
-    pose0_rejection_threshold: 3
+    # pose0_rejection_threshold: 3
     pose1: amcl_pose
     pose1_config: [true,  true,  false,
                   false, false, true,
                   false, false, false,
                   false, false, false,
                   false, false, false]
-    pose1_rejection_threshold: 3
-    process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.01, 0,    0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.02, 0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.01, 0,    0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.01, 0,
-                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.015]
-    initial_estimate_covariance: [1e-4, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                  0,    1e-4, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+    # pose1_rejection_threshold: 2
+    process_noise_covariance: [0.0008, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0.0008, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0.0008, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0.00008, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0.00008, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0.0003, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0.000208, 0,     0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0.000208, 0,    0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0.00008, 0,    0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0.00008, 0,    0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.00008, 0,    0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.00008, 0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.00008, 0,    0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.00008, 0,
+                              0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.000108]
+    initial_estimate_covariance: [1e-5, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                                  0,    1e-5, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
                                   0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
                                   0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
                                   0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
@@ -62,17 +75,22 @@ data:
 
 ---
 
-apiVersion: extensions/v1beta1 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "robot-localization-package"
 spec:
+  selector:
+    matchLabels:
+      app:  "robot-localization-package"
   replicas: 1 
   template:
     metadata:
       labels:
         app: robot-localization-package 
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: thor          
       containers:
       - name: service 
         image: matheusdutra0207/robot-localization-ros:v2
@@ -81,9 +99,9 @@ spec:
           - ekf.launch
         env:
         - name: ROS_MASTER_URI
-          value: http://10.10.3.188:30015
+          value: http://10.20.5.2:30015
         - name: ROS_IP
-          value: 10.10.3.188
+          value: 10.20.5.2
         imagePullPolicy: Always
         volumeMounts:
           - name: robot-localization-config-volume
