@@ -30,7 +30,7 @@ def getPoseReconstruction():
 
 def publishToRos():
     rospy.init_node('is')
-    pub_pose = rospy.Publisher("~vo", PoseWithCovarianceStamped, queue_size=100)
+    pub_pose = rospy.Publisher("~Robis", PoseWithCovarianceStamped, queue_size=100)
     rate = rospy.Rate(rate_publish) # 10hz
     while not rospy.is_shutdown():
         try: 
@@ -58,13 +58,13 @@ def publishToRos():
 if __name__ == '__main__':
 
     broker_uri= rospy.get_param("is/broker_uri", "amqp://10.10.3.188:30000")
-    aruco_id  =  rospy.get_param("is/aruco_id", 5)
+    detection_id  =  rospy.get_param("is/detection_id", 1)
     measurement_covariance_noise = rospy.get_param("is/measurement_covariance_noise", 0.14)
     rate_publish = rospy.get_param("is/rate_publish", 10)
 
     channel_recontruction = StreamChannel(broker_uri)
     subscription = Subscription(channel_recontruction)
-    subscription.subscribe(topic=f"reconstruction.{aruco_id}.ArUco")
+    subscription.subscribe(topic=f"pose.{detection_id}.Robis")
 
     try:
         publishToRos()
